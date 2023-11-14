@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <app-header v-on:pass="logText"></app-header>
+        <app-content v-on:increase = "addNumber"></app-content>
+        <app-number v-bind:propsdata="number"></app-number>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var appHeader = {
+            template : '<button v-on:click="passEvent">click me</button>'
+            , methods :{
+                passEvent :function(){
+                    this.$emit('pass');
+                }
+            }
+        }
+
+        var appContent = {
+            template : '<button v-on:click="addNumber">add number</button>'
+            , methods :{
+                addNumber :function(){
+                    this.$emit('increase');
+                }
+            }
+        }
+
+        var appNumber = {
+            template : '<div>{{propsdata}}</div>'
+            , props :['propsdata']
+        }
+
+        var vm = new Vue({
+            el : '#app'
+            , components :{
+                'app-header' : appHeader
+                , 'app-content' : appContent
+                , 'app-number' : appNumber
+            }
+            , methods :{
+                logText : function(){
+                    console.log('root log');
+                }
+                , addNumber : function(){
+                    console.log('addnumber');
+                    this.number++;
+                    console.log(this.number);
+                }
+            }
+            , data :{
+                number : 10
+            }
+        })
+    </script>
+</body>
+</html>
